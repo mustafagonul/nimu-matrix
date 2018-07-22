@@ -29,10 +29,12 @@ public:
   //matrix_static(E&&...e) noexcept;
 
   matrix_static() noexcept = default;
-  matrix_static(matrix_type const&) = default;
   matrix_static(matrix_type&&) noexcept = delete;
+  matrix_static(matrix_type const&) noexcept = default;
   matrix_static(std::initializer_list<value_type>) noexcept;
 
+  matrix_static&& operator=(matrix_static&&) = delete;
+  matrix_static& operator=(matrix_static const&) = default;
 
 public:
   auto get(size_type row, size_type col) -> reference;
