@@ -20,7 +20,7 @@ target_link_libraries(nimu-matrix-test Boost::unit_test_framework)
 target_include_directories(nimu-matrix-test PUBLIC ../include)
 target_compile_definitions(nimu-matrix-test PRIVATE BOOST_TEST_DYN_LINK)
 
-# Test directive 
+# Test directive
 add_test(NAME nimu-matrix-test-ann-static COMMAND nimu-matrix-test-ann-static)
 
 #--------------------------------------------------------------------------------------------------

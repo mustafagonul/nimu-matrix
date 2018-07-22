@@ -2,6 +2,7 @@
 
 #include <array>
 #include <initializer_list>
+#include <iostream>
 
 
 namespace nimu {
@@ -24,11 +25,14 @@ public:
   using mul_result_type = matrix_static<Type, RowSize, OtherColumnSize>;
 
 public:
-  explicit matrix_static(const_reference) noexcept;
-  matrix_static() noexcept = default;
+  //template <typename ...E>
+  //matrix_static(E&&...e) noexcept;
 
-  template <typename ...E>
-  matrix_static(E&&...e) noexcept;
+  matrix_static() noexcept = default;
+  matrix_static(matrix_type const&) = default;
+  matrix_static(matrix_type&&) noexcept = delete;
+  matrix_static(std::initializer_list<value_type>) noexcept;
+
 
 public:
   auto get(size_type row, size_type col) -> reference;
@@ -46,14 +50,16 @@ public:
   void fill(const_reference) noexcept;
   auto transpose() const noexcept -> transpose_type;
   bool equal(matrix_type const &) const noexcept;
-  
-  constexpr size_type row_size() const noexcept;
-  constexpr size_type column_size() const noexcept;
-  constexpr size_type cell_size() const noexcept;
+
+  constexpr size_type row_size() const noexcept     { return row_size_;  }
+  constexpr size_type column_size() const noexcept  { return column_size_; }
+  constexpr size_type cell_size() const noexcept    { return cell_size_; }
 
 private:
-  constexpr size_type index(size_type row, size_type col) const noexcept;
-  
+  constexpr size_type index(size_type row, size_type col) const noexcept {
+    return row * column_size() + col;
+  }
+
 private:
   static constexpr size_type row_size_ = RowSize;
   static constexpr size_type column_size_ = ColumnSize;
@@ -62,14 +68,26 @@ private:
   std::array<value_type, cell_size_> m_array;
 };
 
-
+/*
 template <typename Type, size_t RowSize, size_t ColumnSize>
   template <typename ...E>
 matrix_static<Type, RowSize, ColumnSize>::matrix_static(E&&...e) noexcept
   : m_array{{std::forward<E>(e)...}}
 {
 }
+*/
 
+template <typename Type, size_t RowSize, size_t ColumnSize>
+matrix_static<Type, RowSize, ColumnSize>::matrix_static(std::initializer_list<value_type> list) noexcept
+  : m_array{}
+{
+  auto i = m_array.begin();
+  auto j = list.begin();
+
+  for (; i != m_array.end() && j != list.end(); ++i, ++j) {
+    *i = *j;
+  }
+}
 
 template <typename Type, size_t RowSize, size_t ColumnSize>
 inline auto matrix_static<Type, RowSize, ColumnSize>::get(size_type row, size_type col) -> reference
