@@ -130,6 +130,30 @@ BOOST_AUTO_TEST_CASE(assignment, * utf::tolerance(0.000001))
   BOOST_CHECK_EQUAL(other.get(1, 1), 4.0);
 }
 
+BOOST_AUTO_TEST_CASE(get_1, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix.get(0, 0), 1.0);
+  BOOST_CHECK_EQUAL(matrix.get(0, 1), 2.0);
+  BOOST_CHECK_EQUAL(matrix.get(1, 0), 3.0);
+  BOOST_CHECK_EQUAL(matrix.get(1, 1), 4.0);
+}
+
+BOOST_AUTO_TEST_CASE(get_2, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix.get(0), 1.0);
+  BOOST_CHECK_EQUAL(matrix.get(1), 2.0);
+  BOOST_CHECK_EQUAL(matrix.get(2), 3.0);
+  BOOST_CHECK_EQUAL(matrix.get(3), 4.0);
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -2,7 +2,6 @@
 
 #include <array>
 #include <initializer_list>
-#include <iostream>
 
 
 namespace nimu {
@@ -37,9 +36,12 @@ public:
   matrix_static& operator=(matrix_static const&) = default;
 
 public:
-  auto get(size_type row, size_type col) -> reference;
+  auto get(size_type) const -> const_reference;
   auto get(size_type row, size_type col) const -> const_reference;
-  auto set(size_type row, size_type col, const_reference) -> reference;
+  auto set(size_type index) -> reference;
+  auto set(size_type index, const_reference) -> const_reference;
+  auto set(size_type row, size_type col) -> reference;
+  auto set(size_type row, size_type col, const_reference) -> const_reference;
 
   auto add(matrix_type const &) noexcept -> matrix_type&;
   auto sub(matrix_type const &) noexcept -> matrix_type&;
@@ -53,9 +55,9 @@ public:
   auto transpose() const noexcept -> transpose_type;
   bool equal(matrix_type const &) const noexcept;
 
+  constexpr size_type size() const noexcept         { return size_; }
   constexpr size_type row_size() const noexcept     { return row_size_;  }
   constexpr size_type column_size() const noexcept  { return column_size_; }
-  constexpr size_type cell_size() const noexcept    { return cell_size_; }
 
 private:
   constexpr size_type index(size_type row, size_type col) const noexcept {
@@ -65,9 +67,9 @@ private:
 private:
   static constexpr size_type row_size_ = RowSize;
   static constexpr size_type column_size_ = ColumnSize;
-  static constexpr size_type cell_size_ = row_size_ * column_size_;
+  static constexpr size_type size_ = row_size_ * column_size_;
 
-  std::array<value_type, cell_size_> m_array;
+  std::array<value_type, size_> m_array;
 };
 
 /*
@@ -92,9 +94,13 @@ matrix_static<Type, RowSize, ColumnSize>::matrix_static(std::initializer_list<va
 }
 
 template <typename Type, size_t RowSize, size_t ColumnSize>
-inline auto matrix_static<Type, RowSize, ColumnSize>::get(size_type row, size_type col) -> reference
+inline auto matrix_static<Type, RowSize, ColumnSize>::get(size_type index) const -> const_reference
 {
-  return const_cast<reference>(static_cast<matrix_type const &>(*this).get(row, col));
+  // Throws std::out_of_range
+  // return m_array.at(index);
+
+  // Throws no wxception
+  return m_array[index];
 }
 
 template <typename Type, size_t RowSize, size_t ColumnSize>
@@ -102,11 +108,23 @@ inline auto matrix_static<Type, RowSize, ColumnSize>::get(size_type row, size_ty
 {
   auto i = index(row, col);
 
-  return m_array[i];
+  return get(i);
 }
 
 template <typename Type, size_t RowSize, size_t ColumnSize>
-inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type row, size_type col, const_reference value) -> reference
+inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type index) -> reference
+{
+  return const_cast<reference>(static_cast<matrix_type const &>(*this).get(index));
+}
+
+template <typename Type, size_t RowSize, size_t ColumnSize>
+inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type row, size_type col) -> reference
+{
+  return const_cast<reference>(static_cast<matrix_type const &>(*this).get(row, col));
+}
+
+template <typename Type, size_t RowSize, size_t ColumnSize>
+inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type row, size_type col, const_reference value) -> const_reference
 {
   auto i = index(row, col);
 
