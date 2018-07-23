@@ -39,9 +39,7 @@ public:
   auto get(size_type) const -> const_reference;
   auto get(size_type row, size_type col) const -> const_reference;
   auto set(size_type index) -> reference;
-  auto set(size_type index, const_reference) -> const_reference;
   auto set(size_type row, size_type col) -> reference;
-  auto set(size_type row, size_type col, const_reference) -> const_reference;
 
   auto add(matrix_type const &) noexcept -> matrix_type&;
   auto sub(matrix_type const &) noexcept -> matrix_type&;
@@ -124,20 +122,17 @@ inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type row, size_ty
 }
 
 template <typename Type, size_t RowSize, size_t ColumnSize>
-inline auto matrix_static<Type, RowSize, ColumnSize>::set(size_type row, size_type col, const_reference value) -> const_reference
-{
-  auto i = index(row, col);
-
-  m_array[i] = value;
-
-  return m_array;
-}
-
-template <typename Type, size_t RowSize, size_t ColumnSize>
 inline auto matrix_static<Type, RowSize, ColumnSize>::add(matrix_type const&) noexcept -> matrix_type&
 {
   return *this;
 }
+
+template <typename Type, size_t RowSize, size_t ColumnSize>
+inline auto matrix_static<Type, RowSize, ColumnSize>::sub(matrix_type const&) noexcept -> matrix_type&
+{
+  return *this;
+}
+
 
 
 } // namespace matrix
