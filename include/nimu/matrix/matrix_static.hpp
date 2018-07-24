@@ -53,6 +53,9 @@ public:
   auto transpose() const noexcept -> transpose_type;
   bool equal(matrix_type const &) const noexcept;
 
+  auto operator()(size_type index) noexcept -> reference              { return set(index);    }
+  auto operator()(size_type row, size_type col) noexcept -> reference { return set(row, col); }
+
   constexpr size_type size() const noexcept         { return size_; }
   constexpr size_type row_size() const noexcept     { return row_size_;  }
   constexpr size_type column_size() const noexcept  { return column_size_; }

@@ -204,6 +204,74 @@ BOOST_AUTO_TEST_CASE(set_2, * utf::tolerance(0.000001))
   BOOST_CHECK_EQUAL(matrix.get(1, 1), 8.0);
 }
 
+BOOST_AUTO_TEST_CASE(op_paran_1, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix(0), 1.0);
+  BOOST_CHECK_EQUAL(matrix(1), 2.0);
+  BOOST_CHECK_EQUAL(matrix(2), 3.0);
+  BOOST_CHECK_EQUAL(matrix(3), 4.0);
+}
+
+BOOST_AUTO_TEST_CASE(op_paran_2, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix(0, 0), 1.0);
+  BOOST_CHECK_EQUAL(matrix(0, 1), 2.0);
+  BOOST_CHECK_EQUAL(matrix(1, 0), 3.0);
+  BOOST_CHECK_EQUAL(matrix(1, 1), 4.0);
+}
+
+BOOST_AUTO_TEST_CASE(op_paran_3, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix(0), 1.0);
+  BOOST_CHECK_EQUAL(matrix(1), 2.0);
+  BOOST_CHECK_EQUAL(matrix(2), 3.0);
+  BOOST_CHECK_EQUAL(matrix(3), 4.0);
+
+  matrix.set(0) = 5.0;
+  matrix.set(1) = 6.0;
+  matrix.set(2) = 7.0;
+  matrix.set(3) = 8.0;
+
+  BOOST_CHECK_EQUAL(matrix(0), 5.0);
+  BOOST_CHECK_EQUAL(matrix(1), 6.0);
+  BOOST_CHECK_EQUAL(matrix(2), 7.0);
+  BOOST_CHECK_EQUAL(matrix(3), 8.0);
+}
+
+BOOST_AUTO_TEST_CASE(op_paran_4, * utf::tolerance(0.000001))
+{
+  using matrix_type = nmx::matrix_static<double, 2, 2>;
+
+  matrix_type matrix = {1.0, 2.0, 3.0, 4.0};
+
+  BOOST_CHECK_EQUAL(matrix(0, 0), 1.0);
+  BOOST_CHECK_EQUAL(matrix(0, 1), 2.0);
+  BOOST_CHECK_EQUAL(matrix(1, 0), 3.0);
+  BOOST_CHECK_EQUAL(matrix(1, 1), 4.0);
+
+  matrix.set(0, 0) = 5.0;
+  matrix.set(0, 1) = 6.0;
+  matrix.set(1, 0) = 7.0;
+  matrix.set(1, 1) = 8.0;
+
+  BOOST_CHECK_EQUAL(matrix(0, 0), 5.0);
+  BOOST_CHECK_EQUAL(matrix(0, 1), 6.0);
+  BOOST_CHECK_EQUAL(matrix(1, 0), 7.0);
+  BOOST_CHECK_EQUAL(matrix(1, 1), 8.0);
+}
+
 /*
 BOOST_AUTO_TEST_CASE(add_1, * utf::tolerance(0.000001))
 {
@@ -215,7 +283,12 @@ BOOST_AUTO_TEST_CASE(add_1, * utf::tolerance(0.000001))
 
   nmt::random<int> rand(1, 10);
 
-  matrix_type matrix;
+  matrix_type matrix1;
+  matrix_type matrix2;
+  other_type other1{row, column};
+  other_type other2{row, column};
+
+
   for (size_t i = 0; i < row; ++i) {
     for (size_t j = 0; j < column; ++j) {
       auto value = rand.get();
