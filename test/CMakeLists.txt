@@ -7,6 +7,7 @@ project(nimu-matrix-test)
 # Test files
 set(nimu_matrix_test_SOURCES
   matrix_static.cpp
+  # random.cpp
 )
 
 #--------------------------------------------------------------------------------------------------
