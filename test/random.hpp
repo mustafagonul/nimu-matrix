@@ -1,4 +1,4 @@
-#include <boost/random.hpp>
+#include <random>
 
 
 namespace nimu {
@@ -8,7 +8,7 @@ namespace test {
 
 class random_base {
 protected:
-  static boost::random::mt19937 rng;
+  static std::mt19937 rng;
 };
 
 template <typename Type>
@@ -28,7 +28,7 @@ public:
   int get() { return dist(rng); }
 
 private:
-  boost::random::uniform_int_distribution<> dist;
+  std::uniform_int_distribution<> dist;
 };
 
 
