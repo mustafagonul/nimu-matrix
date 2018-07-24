@@ -138,5 +138,5 @@ inline auto matrix_static<Type, RowSize, ColumnSize>::sub(matrix_type const&) no
 
 
 
-} // namespace matrix
-} // namespace nimu
+} // matrix
+} // nimu
